@@ -49,3 +49,12 @@ app.*.map.json
 
 # Widget Preview related
 .widget_preview/
+
+# Local hosting metadata and downloaded browser database binaries
+.vercel/
+web/sqlite3.wasm
+web/sqflite_sw.js
+web/sqflite_sw.js.deps
+web/sqflite_sw.js.map
+.vercel
+.env*

@@ -33,6 +33,26 @@ flutter pub get
 flutter run
 ```
 
+## Chạy web và deploy Vercel
+
+Web dùng SQLite WASM lưu vào IndexedDB của trình duyệt và Tesseract.js để OCR
+tiếng Việt/Anh ngay trên máy người dùng. Lần quét đầu cần mạng để tải bộ nhận
+diện; ảnh hóa đơn không được gửi lên server. Dữ liệu tách biệt giữa các thiết bị,
+trình duyệt và địa chỉ web, và sẽ mất nếu xóa dữ liệu website.
+
+```sh
+flutter pub get
+dart scripts/setup_web.dart
+flutter run -d web-server --web-port 8080
+```
+
+Dùng cùng cổng 8080 khi phát triển để giữ dữ liệu trong trình duyệt.
+Để tạo bản production, chạy `flutter build web --release`.
+Vercel dùng `vercel.json` và `scripts/build-web.sh` để tải Flutter 3.47.6,
+chuẩn bị SQLite WASM và build thư mục `build/web` khi deploy từ Git.
+
+Bản web: https://nieu-expense-ocr.vercel.app
+
 Mở `lib/main.dart` trong Android Studio cũng có thể chạy trên thiết bị Android. Để OCR đáng tin cậy, dùng ảnh rõ, đủ sáng và chụp trọn hóa đơn. OCR chỉ đưa ra dữ liệu gợi ý; hãy kiểm tra số tiền, ngày và người nhận trước khi lưu.
 
 ## Kiểm tra chất lượng

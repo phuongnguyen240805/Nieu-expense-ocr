@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/foundation.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../core/constants/app_constants.dart';
+import 'database_platform.dart';
 
 class AppDatabase {
   static final AppDatabase instance = AppDatabase._init();
@@ -26,14 +23,14 @@ class AppDatabase {
   }
 
   Future<Database> _initDB(String fileName) async {
-    final Directory dbDirectory = await getApplicationDocumentsDirectory();
-    final String path = join(dbDirectory.path, fileName);
-
-    return await openDatabase(
+    final path = await databasePath(fileName);
+    return await appDatabaseFactory.openDatabase(
       path,
-      version: AppConstants.dbVersion,
-      onCreate: _createDB,
-      onUpgrade: _upgradeDB,
+      options: OpenDatabaseOptions(
+        version: AppConstants.dbVersion,
+        onCreate: _createDB,
+        onUpgrade: _upgradeDB,
+      ),
     );
   }
 

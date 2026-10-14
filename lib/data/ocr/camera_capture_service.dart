@@ -1,4 +1,6 @@
-import 'dart:io';
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 
 import 'package:image_picker/image_picker.dart';
 
@@ -22,7 +24,7 @@ class CameraCaptureService {
       source: ImageSource.camera,
       imageQuality: 90,
     );
-    return image?.path;
+    return _imagePath(image);
   }
 
   /// Picks an image from the gallery.
@@ -32,12 +34,12 @@ class CameraCaptureService {
       source: ImageSource.gallery,
       imageQuality: 90,
     );
-    return image?.path;
+    return _imagePath(image);
   }
 
   /// Restores an image if Android recreated MainActivity while the picker ran.
   Future<String?> retrieveLostImage() async {
-    if (!Platform.isAndroid) return null;
+    if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) return null;
 
     final response = await _picker.retrieveLostData();
     if (response.exception case final exception?) {
@@ -46,5 +48,14 @@ class CameraCaptureService {
       );
     }
     return response.file?.path;
+  }
+
+  Future<String?> _imagePath(XFile? image) async {
+    if (image == null) return null;
+    if (!kIsWeb) return image.path;
+    // Persist the image with the expense instead of storing a temporary blob URL.
+    final bytes = await image.readAsBytes();
+    final mimeType = image.mimeType ?? 'image/jpeg';
+    return 'data:$mimeType;base64,${base64Encode(bytes)}';
   }
 }

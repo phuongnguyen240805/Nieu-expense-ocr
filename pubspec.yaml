@@ -43,6 +43,7 @@ dependencies:
   intl: ^0.20.3
   shared_preferences: ^2.5.5
   path: ^1.9.1
+  sqflite_common_ffi_web: 1.2.0
 
 dev_dependencies:
   flutter_test:

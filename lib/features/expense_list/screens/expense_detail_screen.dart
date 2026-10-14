@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/utils/formatters.dart';
+import '../../../core/widgets/receipt_image.dart';
 import '../../../data/models/expense_item.dart';
 import '../providers/expense_list_provider.dart';
 
@@ -52,8 +51,8 @@ class _ExpenseDetails extends StatelessWidget {
         if (item.photoPath case final photoPath?) ...[
           ClipRRect(
             borderRadius: BorderRadius.circular(16),
-            child: Image.file(
-              File(photoPath),
+            child: receiptImage(
+              photoPath,
               height: 220,
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) =>

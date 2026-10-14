@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/services.dart';
@@ -7,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../../core/utils/formatters.dart';
+import '../../../core/widgets/receipt_image.dart';
 import '../../../data/models/expense_category.dart';
 import '../../../data/models/expense_item.dart';
 import '../providers/scan_flow_provider.dart';
@@ -86,8 +85,8 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
               if (_imagePath.isNotEmpty)
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: Image.file(
-                    File(_imagePath),
+                  child: receiptImage(
+                    _imagePath,
                     height: 180,
                     width: double.infinity,
                     fit: BoxFit.cover,
